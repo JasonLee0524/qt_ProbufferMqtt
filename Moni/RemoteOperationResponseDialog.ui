@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RemoteOperationResponseDialog</class>
+ <widget class="QDialog" name="RemoteOperationResponseDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>693</width>
+    <height>548</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_8">
+   <item row="2" column="1">
+    <widget class="QPushButton" name="pushButton_quit">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>退出</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="pushButton_save">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>保存</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="checkBox_RemoteControlResponse">
+       <property name="text">
+        <string>RemoteControlResponse</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="checkBox_RemoteConfigurationResponse">
+       <property name="text">
+        <string>RemoteConfigurationResponse</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>RemoteControlResponse</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteControlResponse_failureReason">
+            <property name="text">
+             <string>failureReason</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteControlResponse_request_id">
+            <property name="text">
+             <string>request_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteControlResponseType">
+            <property name="text">
+             <string>RemoteControlResponseType</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteControlResponse_device_id">
+            <property name="text">
+             <string>device_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteControlResponse_request_id"/>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteControlResponse_failureReason"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteControlResponse_device_id"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_RemoteControlResponseType"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="checkBox_RemoteUpgradeResponse">
+       <property name="text">
+        <string>RemoteUpgradeResponse</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>RemoteConfigurationResponse</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <property name="bottomMargin">
+         <number>9</number>
+        </property>
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="checkBox_LocalConfigurationInfo">
+            <property name="text">
+             <string>LocalConfigurationInfo</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteConfigurationResponse_request_id">
+            <property name="text">
+             <string>request_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteConfigurationResponse_device_id">
+            <property name="text">
+             <string>device_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteConfigurationResponse_failureReason">
+            <property name="text">
+             <string>failureReason</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteConfigurationResponseType">
+            <property name="text">
+             <string>RemoteConfigurationResponseType</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteConfigurationResponse_request_id"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteConfigurationResponse_device_id"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_RemoteConfigurationResponseType"/>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteConfigurationResponse_failureReason"/>
+          </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="pushButton_LocalConfigurationInfo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>LocalConfigurationInfo</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>RemoteUpgradeResponse</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteUpgradeResponse_request_id">
+            <property name="text">
+             <string>request_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteUpgradeResponse_device_id">
+            <property name="text">
+             <string>device_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteUpgradeResponse_request_id"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_RemoteUpgradeResponse_device_id"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

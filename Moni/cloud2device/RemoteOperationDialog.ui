@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RemoteOperationDialog</class>
+ <widget class="QDialog" name="RemoteOperationDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>733</width>
+    <height>605</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_12">
+   <item row="0" column="0" colspan="2">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="checkBox_RemoteUpgrade">
+       <property name="text">
+        <string>RemoteUpgrade</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="checkBox_RemoteControl">
+       <property name="text">
+        <string>RemoteControl</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="checkBox_RemoteConfiguration">
+       <property name="text">
+        <string>RemoteConfiguration</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="checkBox_message_timestamp">
+       <property name="text">
+        <string>message_timestamp</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEdit_message_timestamp"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>RemoteControl</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_Control_request_id">
+            <property name="text">
+             <string>request_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteControlCommand">
+            <property name="text">
+             <string>RemoteControlCommand</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteControlParam">
+            <property name="text">
+             <string>RemoteControlParam</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_Control_request_id"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_RemoteControlCommand"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QGroupBox" name="groupBox_5">
+            <property name="title">
+             <string>RemoteControlParam</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_10">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_11">
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="checkBox_key">
+                 <property name="text">
+                  <string>key</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="checkBox_value">
+                 <property name="text">
+                  <string>value</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_key"/>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_value"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>RemoteUpgrade</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBox_ftp_address">
+            <property name="text">
+             <string>ftp_address</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_Upgrade_request_id">
+            <property name="text">
+             <string>request_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_software_version">
+            <property name="text">
+             <string>software_version</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_Upgrade_request_id"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_software_version"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEdit_ftp_address"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>RemoteConfiguration</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_RemoteConfigurationInfo">
+            <property name="text">
+             <string>RemoteConfigurationInfo</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_Configuration_request_id">
+            <property name="text">
+             <string>request_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_Configuration_request_id"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="title">
+             <string>RemoteConfigurationInfo</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_9">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_8">
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="checkBox_configuration_key">
+                 <property name="text">
+                  <string>configuration_key</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="checkBox_configuration_value">
+                 <property name="text">
+                  <string>configuration_value</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_configuration_key"/>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_configuration_value"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="pushButton_save">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>保存</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="pushButton_quit">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>退出</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

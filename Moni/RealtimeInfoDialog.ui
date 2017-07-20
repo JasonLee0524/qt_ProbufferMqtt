@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RealtimeInfoDialog</class>
+ <widget class="QDialog" name="RealtimeInfoDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>858</width>
+    <height>516</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_5">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QCheckBox" name="checkBox_ConnectivityState">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>ConnectivityState</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>ConnectivityState</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="checkBox_NetworkOperator">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>NetworkOperator</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_NetworkOperator"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="checkBox_NetworkType">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>NetworkType</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox_NetworkType"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>DeviceWorkState</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_DeviceWorkState"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="checkBox_DeviceWorkState">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>DeviceWorkState</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="checkBox_ChargingConnector">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>ChargingConnector</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>ChargingConnector</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_charging_connector_id">
+            <property name="text">
+             <string>charging_connector_id</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QCheckBox" name="checkBox_power_charger_connector_rated_output_power">
+            <property name="text">
+             <string>power_charger_connector_rated_output_power</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QCheckBox" name="checkBox_realtime_output_voltage">
+            <property name="text">
+             <string>realtime_output_voltage</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_ChargingConnectorWorkState"/>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="checkBox_PowerChargerConnectorOutputVoltage">
+            <property name="text">
+             <string>PowerChargerConnectorOutputVoltage</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QCheckBox" name="checkBox_realtime_output_current">
+            <property name="text">
+             <string>realtime_output_current</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_ChargingConnectorConnectionState"/>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="lineEdit_power_charger_connector_rated_output_power"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkBox_ChargingConnectorFaultState">
+            <property name="text">
+             <string>ChargingConnectorFaultState</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="comboBox_ChargingConnectorFaultState"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_ChargingConnectorWorkState">
+            <property name="text">
+             <string>ChargingConnectorWorkState</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLineEdit" name="lineEdit_realtime_output_current"/>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="comboBox_PowerChargerConnectorOutputVoltage"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_charging_connector_id"/>
+          </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="checkBox_PowerChargerConnectorOutputType">
+            <property name="text">
+             <string>PowerChargerConnectorOutputType</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="comboBox_PowerChargerConnectorOutputType"/>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="lineEdit_realtime_output_voltage"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBox_ChargingConnectorConnectionState">
+            <property name="text">
+             <string>ChargingConnectorConnectionState</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="pushButton_save">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>60</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>保存</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="pushButton_quit">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>60</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>退出</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,380 @@
+//更新于2017年01月19日 第三版本V1.3
+//更新于2017年01月18日 第二版本V1.2
+//创建于2017年01于06日 第一版本v1.0
+
+syntax = "proto2";
+
+//package weilai_message;
+option java_package = "com.nextev.messaging.protobuf";
+option java_outer_classname = "NextEVMessage";
+
+//----------------------------------------------------------------------------------------------------------------
+//主信息体，作为所有信息的解析入口
+//0x08 0xXX 0x12 0xXX 
+// |    |
+// |    |----------------------------------整个信息体的长度
+// |---------------------------------------第一个字符串的默认
+//----------------------------------------------------------------------------------------------------------------
+message Message {
+    optional int32 version = 1; // message protocol version (required)                   //协议版本
+    optional string id = 2; // message id (will be set by server)                        //服务器下发的消息体id
+    optional int64 publish_ts = 3; // message publish time (will be set by server time)  //服务器时间                   (用于确认服务器与本机的通讯时差!!!)
+    optional int64 ttl = 4; // message expiration (required, in second)                  //有效时间                     (需要进一步确认有效时间的处理方式!!!)
+    optional MessageType type = 5; // 2-level message type (required)                    //用于区分消息类别
+    optional string sub_type = 6; //(optional)                                           //用于区分子站种类
+    repeated ParamType params = 7; //generic key-value parameters (optional)             //存储真正的数据信息             
+
+    enum MessageType {
+        NOTIFICATION = 0;																 //通知类型： 实时信息(与直流桩兼容）
+        CONTROL_COMMAND = 1;															 //控制命令：
+        COMMAND_RESULT = 2;                                                              //控制结果：
+        DATA_REPORT = 3;                                                                 //数据上报：  服务/充电信息（与直流桩共用）
+        CLIENT_STATUS = 4;                                                               //客户端状态：基本信息(与直流桩兼容)
+    }
+
+    message ParamType {
+        optional string key = 1; //不同种类的设备按照key来区分。可用值：PowerSwap, PowerMobile, ACPowerCharger。对于从cloud 到 device的控制，key值为“RemoteOperation”。对于device回应cloud的答复，key值为“RemoteOperationResponse”
+        optional bytes value = 2;
+    }
+}
+
+//------------------------------------------------------------------------------------------------------
+//直流充电桩 信息体
+//------------------------------------------------------------------------------------------------------
+/*交流桩。消息为从设备发至云端。 */
+message ACPowerCharger {
+	optional string device_id = 1;                          //required 设备ID （每条消息都需要上传） [约束规则：not_null, not_empty]
+	optional int64 message_timestamp = 2;                   //required 消息发送的时间戳，采用UNIX时间，精确到毫秒 [约束规则：not_null, timestamp]
+
+	optional BasicInfo basicInfo = 3;                       //基本信息（登录上送、变化上送）
+	optional RealtimeInfo realtime_info = 4;                //充电枪数据（正常上送）
+	repeated Alarm alarms = 5;                              //告警信息（触发上送）
+	repeated ServiceInfo service_info = 6;                  //充电数据（存在上送）
+	optional LocalConfiguration local_configuration = 7;    //本地配置信息列表
+
+	//3.设备基本信息(内存备份、数据库保存)变化上送
+	message BasicInfo {
+		optional CommonBasicInfo common_basic_info = 1;    //服务配置信息(需要本地保存)
+
+		optional PowerChargerType power_charger_type = 2;  //充电桩类型
+		optional int32 charging_connector_quantity = 3;    //充电枪个数 [约束规则：[0,255]]
+		optional float power = 4;                          //最大输出功率 [约束规则：[0, +∞)] 
+	}
+
+	//4.设备实时信息(充电枪状态，用于实时上报)
+	message RealtimeInfo {
+		optional ConnectivityState connectivity_state = 1; //联网状态
+		optional DeviceWorkState device_work_state = 2;    //设备状态（工作状态；故障状态）
+		repeated ChargingConnector charging_connector = 4; //多把充电枪数据
+	}
+	
+	  enum DeviceWorkState {
+        DWS_FREE = 0; //绌洪棽
+        DWS_IN_CHARGING = 1; //鍏呯數涓
+    }
+
+
+	//3.2充电桩类型
+	enum PowerChargerType {
+	    PCT_AC_ONLY = 0;
+	    PCT_DC_ONLY = 1;
+	    PCT_AC_DC_HYBRID = 2;
+
+	    PCT_OTHER = 254;
+	    PCT_UNKNOWN = 255;
+	}
+
+	//6.服务信息
+	message ServiceInfo {
+        optional string service_id = 1;          //required 命名规则：deviceID+connectorID+startTimestamp [约束规则：not_null, not_empty] 32B
+		
+        optional ServiceEvent service_event = 2; //服务事件标志（充/换电开始，充/换电结束） //required 
+        optional int64 charging_event_timestamp = 3; //optional(start和finish时是required）
+
+        //充电开始时需要上传的数据
+        optional string charging_connector_id = 4;
+
+        //充电全程上传的数据
+        optional float realtime_charged_energy = 5; // 正在充电中显示已经充了的电能(KWH)
+
+        //充电结束时需要上传的数据
+        optional ServiceFinishResult service_finish_result = 6;//1=正常结束 2=异常结束
+        optional float charged_energy_total = 7; //充电结束时候显示本次充电电能(KWH)（结束）
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------
+//3.设备基础信息体的基本信息
+//----------------------------------------------------------------------------------------------------------------
+//3.1基础信息
+message CommonBasicInfo {
+	optional string software_version = 1;             //软件版本号（注册时和有变化时上传）    (获取tcu_main软件代码版本)
+	optional string hardware_version = 2;             //硬件版本号（注册时和有变化时上传）    (获取系统硬件版本，从设备)
+	optional ServiceStateInfo service_state_info = 3; //服务状态信息 （注册时和有变化时上传） ()
+}
+
+//服务状态 信息体
+//服务状态由后台下发，保存在本地，记录原因和状态。用于对设备的控制。需要和蔚来汽车沟通!!.
+message ServiceStateInfo {
+	optional ServiceState service_state = 1;
+	optional ServiceStateReason service_state_reason = 2;
+}
+
+enum ServiceState {
+	SS_ON_GOING = 0;            			//正在服务 
+	SS_WAITING = 1;             			//等待服务
+	SS_STOP = 2;                			//停止服务
+	SS_PAUSE = 3;               			//暂停服务
+	SS_UNDER_CONSTRUCTION = 4;  			//正在建设
+	SS_OFFLINE = 5;             			//下线
+	SS_OTHER = 254;             			//其他状态
+	SS_UNKNOWN = 255;           			//未知
+}
+
+enum ServiceStateReason {
+	SSR_OUT_OF_POWER = 0;        			//换电站电池电量不够，充电车充电电池电量不够
+	SSR_LACK_OF_RANGE = 1;     			    //充电车续航里程不足
+	SSR_ALTERNATIVE_TRANSLATIONS = 2;		//充电车驾驶员交接班
+	SSR_OFF_WORK = 3; 						//下班(服务运营时间之外) 
+	SSR_UPGRADE = 4; 						//升级
+	SSR_DOWNTIME = 5; 						//故障停机
+	SSR_MAINTENANCE = 6; 					//设备保养
+	SSR_SUPPLEMENTATION = 7; 				//补能中
+	SSR_OTHER = 254; 						//其他原因
+	SSR_UNKNOWN = 255; 						//未知
+}
+
+//----------------------------------------------------------------------------------------------------------------
+//4.设备实时信息(充电枪状态，用于实时上报)
+//----------------------------------------------------------------------------------------------------------------
+//4.1联网状态
+message ConnectivityState {
+	optional NetworkOperator network_operator = 1;
+	optional NetworkType network_type = 2;
+}
+
+enum NetworkOperator {
+	NO_CHINA_MOBILE = 0; //中国移动
+	NO_CHINA_UNICOM = 1; //中国联通
+	NO_CHINA_TELECOM = 2; //中国电信
+	NO_OTHER = 254; //其他 表明设备上传了一种之前未约定的类型
+	NO_UNKNOWN = 255; //未知，默认值 表明设备未上传此值
+}
+
+enum NetworkType {
+	NT_RJ45 = 0;
+	NT_RADIO_2G = 1; //2G
+	NT_RADIO_3G = 2; //3G
+	NT_RADIO_4G = 3; //4G
+	NT_OTHER = 254; //其他 表明设备上传了一种之前未约定的类型
+	NT_UNKNOWN = 255; //未知，默认值 表明设备未上传此值
+}
+
+
+//4.3充电枪状态
+message ChargingConnector {
+	optional string charging_connector_id = 1;// [约束规则：not_null, not_empty]
+	optional ChargingConnectorWorkState charging_connector_work_state = 2;
+	optional ChargingConnectorConnectionState charging_connector_connection_state = 3;
+	optional ChargingConnectorFaultState charging_connector_fault_state = 4;
+
+	optional PowerChargerConnectorOutputType power_charger_connector_output_type = 5; //针对交流充电桩
+    optional PowerChargerConnectorOutputVoltage power_charger_connector_rated_output_voltage = 6; //额定输出电压，针对交流充电桩
+    optional float power_charger_connector_rated_output_power = 7; //额定输出功率 [约束规则：[0, +∞)]
+
+    optional float realtime_output_voltage = 8; //实时输出电压 [约束规则：[0, +∞)]
+    optional float realtime_output_current = 9; //实时输出电流 [约束规则：[0, +∞)]
+    //optional float output_power = ?; //实时输出功率不需要，因为可以根据实时输出电压乘以实时输出电流计算得出
+}
+
+enum ChargingConnectorWorkState{
+	CCWS_FREE = 0; //空闲
+	CCWS_IN_CHARGING = 1; //充电中
+	CCWS_CHARGING_COMPLETE = 3; //充电完成
+}
+
+enum ChargingConnectorConnectionState {
+	CCCS_CONNECTED = 0; //连接
+	CCCS_DISCONNECTED = 1; //断开连接
+}
+
+enum ChargingConnectorFaultState{
+	CCFS_NO_FAULT = 0;
+	CCFS_HAVING_FAULT = 1;
+}
+
+enum PowerChargerConnectorOutputType {
+    COT_3_PHASE = 0;
+    COT_7_PIN = 1;
+    COT_9_PIN = 2;
+}
+
+enum PowerChargerConnectorOutputVoltage {
+    COV_380V = 0;
+    COV_220V = 1;
+    COV_500V = 2;
+    COV_750V = 3;
+}
+
+enum ServiceEvent {
+	SE_START = 0;
+	SE_FINISH = 1;
+}
+
+enum ServiceFinishResult{
+	SFR_OK = 0;
+	SFR_ERROR = 1;
+}
+
+//----------------------------------------------------------------------------------------------------------------
+//5.告警信息
+//----------------------------------------------------------------------------------------------------------------
+message Alarm {
+	optional uint32 alarm_type_id = 1;// [约束规则：not_null]
+	optional int64 alarm_timestamp = 2; //消息发送的时间戳，采用UNIX时间，精确到毫秒 [约束规则：not_null, timestamp]
+	optional AlarmState alarm_state = 3;
+}
+
+enum AlarmState {
+	AS_INACTIVE = 0; //告警清除
+	AS_ACTIVE = 1; //告警开始
+}
+//----------------------------------------------------------------------------------------------------------------
+//7 配置
+//----------------------------------------------------------------------------------------------------------------
+// 设备本地配置上传，由设备传给云
+message LocalConfiguration {
+    optional bool full = 1; // 标识上传的是否是全量配置，若不提供，则认为是增量上传。
+    repeated LocalConfigurationInfo configuration_info = 2; // [约束规则：not_empty]
+}
+
+// 配置项
+message LocalConfigurationInfo{
+    optional string configuration_key = 1; //设备-->云， 云-->设备 [约束规则：not_null, not_empty]
+    optional bytes configuration_value = 2; //设备-->云， 云-->设备
+
+    optional LocalConfigurationInfoAccessType local_configuration_info_access_type = 3; //仅限设备-->云
+
+    optional bool has_been_updated = 4; //该值是否成功更新, 仅限设备-->云
+    optional string failureReason = 5;
+}
+
+// 配置项访问类型（云访问配置）
+enum LocalConfigurationInfoAccessType {
+    LCIAT_READONLY = 0; //只读
+    LCIAT_READWRITE = 1; //读写
+}
+
+
+//=========================================================================================================================
+//云给设备的操作
+//=========================================================================================================================
+/*远程操作，适用于所有PE加电资源  */
+message RemoteOperation {
+    optional int64 message_timestamp = 1; //required 消息发送的时间戳，采用UNIX时间，精确到毫秒
+
+    optional RemoteConfiguration remote_configuration = 2; //远程配置
+    optional RemoteControl remote_control = 3; //远程控制
+    optional RemoteUpgrade remote_upgrade = 4; //远程升级
+}
+
+//X.2配置
+// 远程配置列表，由云传给设备
+message RemoteConfiguration {
+    optional string request_id = 1; //required
+    repeated RemoteConfigurationInfo remote_configuration_info = 2;
+}
+
+// 配置项
+message RemoteConfigurationInfo{
+    optional string configuration_key = 1;
+    optional bytes configuration_value = 2; //如果不存在，清除配置；如果存在（即使为NULL),也需赋值为NULL
+}
+
+//x.3 控制
+// 远程控制，由云传给设备
+message RemoteControl {
+    optional string request_id = 1; //required
+    optional RemoteControlCommand remote_control_command = 2;
+
+    repeated RemoteControlParam remote_control_param = 3; // “开始充电”时可以指定充电策略，默认为自然充电。key为“1”时指定秒数；key为“2”时指定度数。
+}
+
+enum RemoteControlCommand {
+    RCC_SHUTDOWN = 0; //紧急断电
+    RCC_REBOOT = 1; //重启
+    RCC_ENABLE_CONNECTOR = 2; //枪使能
+    RCC_DISABLE_CONNECTOR = 3; //枪禁用
+    RCC_START_CHARGING = 4; //开始充电
+    RCC_STOP_CHARGING = 5; //结束充电
+    RCC_STARTUP = 6; //远程开启
+}
+
+message RemoteControlParam {
+    optional string key = 1;
+    optional bytes value = 2;
+}
+
+
+//x.4 升级
+message RemoteUpgrade {
+    optional string request_id = 1;
+    optional string software_version = 2;
+    optional string ftp_address = 3;
+    //TODO: add more when solution is concluded
+}
+
+
+//=========================================================================================================================
+//设备给云端的操作
+//=========================================================================================================================
+
+//----------------------------------------------------------------------------------------------------------------
+//响应
+//----------------------------------------------------------------------------------------------------------------
+message RemoteOperationResponse{
+    optional RemoteConfigurationResponse remote_configuration_response = 1;
+    optional RemoteControlResponse remote_control_response = 2;
+    optional RemoteUpgradeResponse remote_upgrade_response = 3;
+}
+
+// 远程配置响应，由设备传给云
+message RemoteConfigurationResponse {
+    optional string request_id = 1; //required 这个值需要和RemoteConfiguration消息中的request_id匹配 [约束规则：not_null, not_empty]
+    optional string device_id = 2; // [约束规则：not_null, not_empty]
+    optional RemoteConfigurationResponseType remote_configuration_response_type = 3;
+    optional string failureReason = 4;
+    repeated LocalConfigurationInfo configuration_info = 5; //将更新后的配置信息列表传给云，仅传已经变更的。
+}
+
+// 远程配置返回值类型
+enum RemoteConfigurationResponseType{
+    RCONFRT_RECEIVED = 0;
+    RCONFRT_FINISHED_OK = 1;
+    RCONFRT_FINISHED_FAILED = 2;
+}
+
+//----------------------------------------------------------------------------------------------------------------
+// 远程控制响应，由设备传给云
+message RemoteControlResponse {
+    optional string request_id = 1; //required 这个值需要和RemoteControl消息中的request_id匹配 [约束规则：not_null, not_empty]
+    optional string device_id = 2; // [约束规则：not_null, not_empty]
+    optional RemoteControlResponseType remote_control_response_type = 3;
+    optional string failureReason = 4;
+}
+
+// 远程配置返回值类型
+enum RemoteControlResponseType{
+    RCONTRT_RECEIVED = 0;
+    RCONTRT_FINISHED_OK = 1;
+    RCONTRT_FINISHED_FAILED = 2;
+}
+
+//----------------------------------------------------------------------------------------------------------------
+message RemoteUpgradeResponse {
+    optional string request_id = 1; // [约束规则：not_null, not_empty]
+    optional string device_id = 2; // [约束规则：not_null, not_empty]
+    //TODO: add more when solution is concluded
+}
+
+
